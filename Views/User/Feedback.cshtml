@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Feedback";
+    Layout = "~/Views/Shared/_UserLayout.cshtml"; // 使用已定義的 User 專用 Layout
+}
+
+<div class="container mt-5">
+    <div class="feedback-container shadow p-4 rounded bg-white">
+        <h2 class="text-center text-primary">回饋意見</h2>
+        <form method="post" action="@Url.Action("SubmitFeedback", "User")">
+            <div class="form-group mt-4">
+                <label for="feedback" class="form-label">請輸入您的回饋：</label>
+                <textarea id="feedback" name="FeedbackContent" class="form-control" rows="5" placeholder="請在此輸入您的意見..." required></textarea>
+            </div>
+            <div class="form-group d-flex justify-content-between mt-4">
+                <button type="submit" class="btn btn-success w-45">送出</button>
+                <a href="@Url.Action("UserMainPage", "User")" class="btn btn-secondary w-45">取消</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .feedback-container {
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .w-45 {
+        width: 45%;
+    }
+</style>

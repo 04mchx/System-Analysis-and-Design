@@ -1,0 +1,153 @@
+﻿@{
+    ViewBag.Title = "Search Meal";
+    Layout = "~/Views/Shared/_UserLayout.cshtml"; // 使用 UserLayout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .search-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .toggler {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+        }
+
+            .toggler i {
+                color: white;
+                font-size: 1.5rem;
+            }
+
+        .nutrition-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 10px;
+            z-index: 1000;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            padding: 10px;
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            flex: 1;
+            background: #eee;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+            .search-input-wrapper input {
+                border: none;
+                background: transparent;
+                flex: 1;
+                outline: none;
+                font-size: 1rem;
+            }
+
+            .search-input-wrapper button {
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 1.2rem;
+                color: #6a0dad;
+            }
+
+        .carousel-container {
+            margin-top: 30px;
+        }
+
+        .carousel img {
+            max-height: 300px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <form method="get" action="@Url.Action("SearchMealResult", "Search")" class="search-container">
+        <!-- Toggler -->
+        <div class="toggler" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <!-- Nutrition Menu -->
+        <div class="nutrition-menu">
+            <label><input type="checkbox" name="nutritionTags" value="低糖"> 低糖</label>
+            <label><input type="checkbox" name="nutritionTags" value="低脂"> 低脂</label>
+            <label><input type="checkbox" name="nutritionTags" value="高蛋白"> 高蛋白</label>
+        </div>
+        <!-- Search Input -->
+        <div class="search-input-wrapper">
+            <input type="text" name="searchText" placeholder="Hinted search text">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+
+    <div class="carousel-container">
+        <div id="mealCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @if (ViewBag.RandomMeals != null)
+                {
+                    int index = 0;
+                    foreach (var meal in ViewBag.RandomMeals)
+                    {
+                        <div class="carousel-item @(index == 0 ? "active" : "")">
+                            <img src="@meal.MealImage" alt="@meal.MealName">
+                        </div>
+                        index++;
+                    }
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#mealCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#mealCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.nutrition-menu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>

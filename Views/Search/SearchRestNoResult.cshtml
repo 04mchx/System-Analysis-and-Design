@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "No Search Results";
+    Layout = "~/Views/Shared/_UserLayout.cshtml"; // 使用 UserLayout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        .no-result-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .search-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .search-form input[type="text"] {
+                padding: 10px;
+                width: 300px;
+                font-size: 1rem;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                margin-right: 10px;
+            }
+
+            .search-form button {
+                padding: 10px 20px;
+                background-color: #6a0dad;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+                .search-form button:hover {
+                    background-color: #580b92;
+                }
+
+        .back-button {
+            padding: 10px 20px;
+            background-color: #ddd;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .back-button:hover {
+                background-color: #bbb;
+            }
+    </style>
+</head>
+<body>
+    <div class="no-result-container">
+        <h1>No Search Result</h1>
+        <!-- 搜索表單 -->
+        <form asp-action="SearchResults" method="get" class="search-form">
+            <input type="text" name="searchQuery" placeholder="Search again..." />
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</body>
+</html>

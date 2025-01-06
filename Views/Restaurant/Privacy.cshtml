@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>店家使用者條款與隱私政策</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Remove Navigation and Footer */
+        nav, footer {
+            display: none !important;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #6a0dad;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #6a0dad;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+            .back-button:hover {
+                background-color: #580b92;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>店家使用者條款</h1>
+
+        <h2>1. 合約條款</h2>
+        <p>1.1 本條款為您（以下簡稱「店家」）與本平台（以下簡稱「我們」）之間的法律合約。註冊及使用本平台即表示您同意受本條款約束。</p>
+        <p>1.2 我們保留修改本條款的權利，更新內容將於網站公告並即時生效。</p>
+
+        <h2>2. 資格與註冊</h2>
+        <p>2.1 店家需提供真實、完整且準確的資訊進行註冊，包括但不限於店名、地址、聯絡資訊等。</p>
+        <p>2.2 店家需對其帳戶行為負責，禁止轉讓或與他人共用帳戶。</p>
+
+        <h2>3. 店家責任</h2>
+        <p>3.1 店家保證提供的商品、服務及相關資訊真實無誤，並遵守相關法律規範。</p>
+        <p>3.2 店家不得利用本平台進行違法或侵權行為，包括但不限於偽造資料、侵害他人權益、散布違禁內容等。</p>
+
+        <h2>4. 平台權利與義務</h2>
+        <p>4.1 我們有權審查及移除任何不符合規範的內容。</p>
+        <p>4.2 我們將採取合理措施保障系統穩定，但不承擔因不可抗力或技術問題導致的損失責任。</p>
+
+        <h2>5. 終止服務</h2>
+        <p>5.1 店家可隨時申請停止使用本平台服務。</p>
+        <p>5.2 如店家違反本條款或相關法律規定，我們有權暫停或終止其使用權限。</p>
+
+        <h1>隱私政策</h1>
+
+        <h2>1. 資訊收集</h2>
+        <p>1.1 我們會收集店家註冊時提供的資訊，包括但不限於店名、聯絡資訊及商品資訊。</p>
+        <p>1.2 系統會記錄店家操作紀錄及交易數據，以便提供更佳的服務。</p>
+
+        <h2>2. 資訊使用</h2>
+        <p>2.1 我們僅將收集的資訊用於提供服務、管理帳戶、以及改善系統功能。</p>
+        <p>2.2 若需將店家資訊用於其他用途，我們將事先徵得店家同意。</p>
+
+        <h2>3. 資訊保護</h2>
+        <p>3.1 我們採用適當的技術及管理措施保障店家資訊安全，防止未授權存取、修改或遺失。</p>
+        <p>3.2 店家需妥善保管登入帳號及密碼，如因疏忽導致資料外洩，店家需承擔相應責任。</p>
+
+        <h2>4. 資訊分享</h2>
+        <p>4.1 我們承諾不會將店家資訊分享予第三方，除非經店家同意或法律要求。</p>
+        <p>4.2 我們可能根據法律規定，向主管機關提供相關資訊。</p>
+
+        <h2>5. 隱私政策修改</h2>
+        <p>5.1 我們有權隨時修改本隱私政策，變更將於網站公告並即時生效。</p>
+        <p>5.2 店家如不同意修改內容，請停止使用本平台服務。</p>
+
+        <div class="checkbox-field">
+            <input type="checkbox" id="termsPolicy" onchange="saveTermsPolicyStatus(this.checked)">
+            <label for="termsPolicy">我已閱讀並同意隱私政策</label>
+        </div>
+    </div>
+    <a href="/Restaurant/Register" class="back-button">返回註冊頁面</a>
+    
+    <script>
+        function saveTermsPolicyStatus(isChecked) {
+            localStorage.setItem('AgreeToTerms', isChecked ? 'true' : 'false');
+        }
+    </script>
+</body>
+</html>

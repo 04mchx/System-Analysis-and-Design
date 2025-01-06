@@ -1,0 +1,102 @@
+﻿@model dbFinal.Models.user
+
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml"; // 使用已定義的 User 專用 Layout
+}
+
+@section Styles {
+    <style>
+        .marquee-container {
+            margin: 20px 0;
+        }
+
+            .marquee-container marquee {
+                font-size: 1rem;
+                color: #6a0dad;
+            }
+
+        .carousel img {
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .carousel-caption h5 {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px;
+        }
+
+            .buttons-container button {
+                background-color: #6a0dad;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+                .buttons-container button:hover {
+                    background-color: #580b92;
+                }
+    </style>
+}
+
+<div class="marquee-container">
+    <marquee behavior="scroll" direction="left" scrollamount="5">
+        @if (ViewBag.Announcements != null)
+        {
+            foreach (var announcement in ViewBag.Announcements)
+            {
+                <span>@announcement.RestaurantName: @announcement.AnnouncementTitle&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            }
+        }
+    </marquee>
+</div>
+
+<div id="mealCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        @if (ViewBag.RandomMeals != null)
+        {
+            int index = 0;
+            foreach (var meal in ViewBag.RandomMeals)
+            {
+                <div class="carousel-item @(index == 0 ? "active" : "")">
+                    <a href="@Url.Action("MealDetail", "Search", new { mealId = meal.MealId })">
+                        <img src="@meal.MealImage" class="d-block w-100" alt="@meal.MealName" style="height: 400px; object-fit: cover;">
+                    </a>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>@meal.MealName</h5>
+                    </div>
+                </div>
+                index++;
+            }
+        }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mealCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mealCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<div class="buttons-container">
+    <form asp-controller="Search" asp-action="SearchRest" method="get" style="margin: 0; padding: 0;">
+        <button type="submit">餐廳</button>
+    </form>
+    <form asp-controller="Search" asp-action="SearchMeal" method="get" style="margin: 0; padding: 0;">
+        <button type="submit">餐點</button>
+    </form>
+    <form asp-controller="User" asp-action="Feedback" method="get" style="margin: 0; padding: 0;">
+        <button type="submit">回饋</button>
+    </form>
+</div>

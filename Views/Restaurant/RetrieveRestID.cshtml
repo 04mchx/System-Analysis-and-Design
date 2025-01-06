@@ -1,0 +1,139 @@
+﻿@{
+    ViewBag.Title = "找回餐廳 ID";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Remove Navigation and Footer */
+        nav, footer {
+            display: none !important;
+        }
+
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            display: flex;
+            justify-content: center; /* 水平置中 */
+            align-items: center; /* 垂直置中 */
+            height: 100vh; /* 高度填滿視窗 */
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Container Styling */
+        .retrieve-container {
+            background: #ffffff;
+            border: 1px solid #ddd;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px; /* 最大寬度 */
+            padding: 20px;
+            text-align: center;
+            margin: auto; /* 保證容器在視覺上置中 */
+        }
+
+            .retrieve-container h1 {
+                color: #6a0dad;
+                margin-bottom: 20px;
+                font-size: 1.8rem;
+            }
+
+        /* Input Fields */
+        .input-field {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+            .input-field label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+                color: #333;
+            }
+
+            .input-field input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 1rem;
+            }
+
+        /* Submit Button */
+        .submit-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #6a0dad;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+            .submit-button:hover {
+                background-color: #580b92;
+            }
+
+        /* Success and Error Messages */
+        .message {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <!-- Retrieve Restaurant ID Container -->
+    <div class="retrieve-container">
+        <h1>@ViewBag.Title</h1>
+
+        <!-- Error Message -->
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <p class="message error">@ViewBag.ErrorMessage</p>
+        }
+
+        <!-- Success Message -->
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <p class="message success">@ViewBag.SuccessMessage</p>
+            <form method="get" action="/Restaurant/RestLogin">
+                <button type="submit" class="submit-button">返回登入頁面</button>
+            </form>
+        }
+        else
+        {
+            <!-- Form -->
+            <form method="post" action="/Restaurant/RetrieveRestID">
+                <div class="input-field">
+                    <label for="RestName">餐廳名稱:</label>
+                    <input type="text" id="RestName" name="RestName" required>
+                </div>
+                <button type="submit" class="submit-button">找回餐廳 ID</button>
+            </form>
+        }
+    </div>
+</body>
+</html>

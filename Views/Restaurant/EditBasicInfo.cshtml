@@ -1,0 +1,127 @@
+﻿@model dbFinal.Models.restaurant
+@{
+    Layout = "~/Views/Shared/_RestaurantLayout.cshtml"; // 針對 Restaurant 的 Layout
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>編輯基本資料</title>
+    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #6a0dad;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-label, .control-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .btn {
+            background-color: #6a0dad;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: #580b92;
+            }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+            .btn-secondary:hover {
+                background-color: #5a6268;
+            }
+
+        .img-thumbnail {
+            display: block;
+            margin: 10px auto;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>編輯基本資料</h1>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <script>
+                alert('@Html.Raw(TempData["SuccessMessage"])');
+            </script>
+        }
+
+        <form asp-action="EditBasicInfo" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="REST_ID" />
+            <div class="mb-3">
+                <label asp-for="REST_NAME" class="form-label">餐廳名稱</label>
+                <input asp-for="REST_NAME" class="form-control" readonly />
+            </div>
+            <div class="mb-3">
+                <label asp-for="REST_ADDRESS" class="form-label">地址</label>
+                <input asp-for="REST_ADDRESS" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="REST_BUSINESSHOURS" class="form-label">營業時間</label>
+                <input asp-for="REST_BUSINESSHOURS" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="REST_PHONE" class="form-label">電話</label>
+                <input asp-for="REST_PHONE" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="imageFile" class="form-label">餐廳圖片</label>
+                <input type="file" name="imageFile" class="form-control" />
+            </div>
+            @if (!string.IsNullOrEmpty(Model.REST_IMAGE))
+            {
+                <div class="text-center mb-3">
+                    <label>目前圖片</label>
+                    <img src="@Model.REST_IMAGE" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px;" />
+                </div>
+            }
+            <div class="text-center">
+                <button type="submit" class="btn me-2">儲存</button>
+                <a asp-controller="Restaurant" asp-action="Dashboard" class="btn btn-secondary">返回主頁</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

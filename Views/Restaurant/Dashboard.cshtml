@@ -1,0 +1,233 @@
+﻿@model dbFinal.Models.RestaurantDashboardViewModel
+@{
+    Layout = "~/Views/Shared/_RestaurantLayout.cshtml"; // 針對 Restaurant 的 Layout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.RestaurantName - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Header */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            color: #333;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+            .top-nav h1 {
+                font-size: 1.8rem;
+                color: #6a0dad;
+            }
+
+            .top-nav a, .top-nav form button {
+                background: none;
+                border: none;
+                color: #6a0dad;
+                font-size: 1.3rem;
+                margin-left: 15px;
+                cursor: pointer;
+            }
+
+            .top-nav i {
+                margin-right: 5px;
+            }
+
+        /* Section Styling */
+        .section {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        h3 {
+            color: #6a0dad;
+            margin-bottom: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: #6a0dad;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: #580b92;
+            }
+
+        /* Restaurant Info */
+        .restaurant-info {
+            display: flex;
+            align-items: center;
+        }
+
+            .restaurant-info img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                margin-right: 20px;
+                object-fit: cover;
+            }
+
+        /* Menu Section */
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .menu-card {
+            flex: 1 1 calc(33.33% - 20px);
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+            .menu-card img {
+                width: 100%;
+                height: 150px;
+                object-fit: cover;
+            }
+
+            .menu-card h4, .menu-card p {
+                margin: 10px 0;
+            }
+
+            .menu-card .btn {
+                margin: 10px 5px;
+            }
+
+        /* Announcements */
+        .announcement-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .emergency-announcement {
+            background-color: #ffebeb;
+            border: 1px solid #ff6666;
+        }
+
+        .announcement-item h4 {
+            margin: 0;
+            color: #6a0dad;
+        }
+
+        .announcement-item p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .announcement-controls a, .announcement-controls button {
+            background: none;
+            border: none;
+            color: #6a0dad;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+            .announcement-controls a:hover, .announcement-controls button:hover {
+                color: #580b92;
+            }
+    </style>
+</head>
+<body>
+    <!-- Restaurant Info Section -->
+    <div class="section restaurant-info">
+        <img src="@(Model.LogoUrl ?? "/images/default-logo.png")" alt="Restaurant Logo">
+        <div>
+            <h2>@Model.RestaurantName</h2>
+            <p>地址: @(Model.Address ?? "未提供")</p>
+            <p>營業時間: @(Model.OpenTime ?? "未提供")</p>
+            <p>電話: @(Model.Phone ?? "未提供")</p>
+        </div>
+    </div>
+
+    <!-- Menu Section -->
+    <div class="section">
+        <h3>菜單</h3>
+        <a asp-controller="Menu" asp-action="CreateMeal" class="btn">新增餐點</a>
+        <div class="menu-container">
+            @foreach (var meal in Model.Meals)
+            {
+                <div class="menu-card">
+                    <img src="@(meal.ImageUrl ?? "/images/default-meal.png")" alt="@meal.Name">
+                    <h4>@meal.Name</h4>
+                    <p>$@meal.Price</p>
+                    <p>@meal.Description</p>
+                    <div>
+                        <a asp-controller="Menu" asp-action="EditMeal" asp-route-id="@meal.Id" class="btn">編輯</a>
+                        <form asp-controller="Menu" asp-action="DeleteMeal" asp-route-id="@meal.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn">刪除</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Announcement Section -->
+    <div class="section">
+        <h3>公告</h3>
+        <a asp-action="CreateAnno" class="btn">發布公告</a>
+        @foreach (var anno in Model.Announcements)
+        {
+            <div class="announcement-item @(anno.IsEmergency ? "emergency-announcement" : "")">
+                <div>
+                    <h4>@anno.Title</h4>
+                    <p>@anno.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+                </div>
+                <div class="announcement-controls">
+                    <a asp-action="EditAnno" asp-route-id="@anno.Id" title="編輯"><i class="fas fa-pen"></i></a>
+                    <form asp-action="DeleteAnno" asp-route-id="@anno.Id" method="post" style="display:inline;">
+                        <button type="submit" title="刪除"><i class="fas fa-trash"></i></button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<dbFinal.Models.review>
+
+@{
+    ViewBag.Title = "評分紀錄";
+    Layout = "~/Views/Shared/_UserLayout.cshtml"; // 使用已定義的 User 專用 Layout
+}
+
+<div class="container mt-4">
+    <h1 class="text-center">Your Rating History</h1>
+
+    @if (!Model.Any())
+    {
+        <p class="text-center text-muted mt-5">尚無評分紀錄</p>
+    }
+    else
+    {
+        <!-- 評分列表 -->
+        <ul class="list-group mt-4">
+            @foreach (var review in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5>@review.MEAL.REST.REST_NAME</h5>
+                        <p class="mb-1">@review.MEAL.MEAL_NAME</p>
+                        <small class="text-muted">
+                            評分時間: @(review.REVIEW_DATE.HasValue ? review.REVIEW_DATE.Value.ToString("yyyy-MM-dd HH:mm") : "無資料")
+                        </small>
+                    </div>
+                    <div>
+                        <!-- 評分顯示 -->
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= review.REVIEW_RATING)
+                            {
+                                <span class="text-warning">&#9733;</span> <!-- Filled star -->
+                            }
+                            else
+                            {
+                                <span class="text-muted">&#9734;</span> <!-- Empty star -->
+                            }
+                        }
+                    </div>
+                    <!-- 刪除按鈕 -->
+                    <form method="post" action="@Url.Action("DeleteReview", "User")" style="margin-left: 20px;">
+                        <input type="hidden" name="reviewId" value="@review.REVIEW_ID" />
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            刪除
+                        </button>
+                    </form>
+                </li>
+            }
+        </ul>
+
+        <!-- 分頁按鈕 -->
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center">
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("ViewReview", new { page = i })">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+    <!-- 回主畫面按鈕 -->
+    <div class="text-center mt-4">
+        <a href="@Url.Action("UserMainPage", "User")" class="btn btn-secondary">回主畫面</a>
+    </div>
+</div>

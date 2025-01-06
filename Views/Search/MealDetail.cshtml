@@ -1,0 +1,136 @@
+﻿@model dbFinal.Models.MealViewModelNew
+
+@{
+    ViewBag.Title = "Meal Details";
+    Layout = "~/Views/Shared/_UserLayout.cshtml"; // 使用 UserLayout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .meal-container {
+            max-width: 800px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            margin: 100px auto; /* 避免被導覽列遮擋 */
+        }
+
+        .meal-image {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+            .meal-image img {
+                width: 100%;
+                max-height: 300px;
+                object-fit: cover;
+                border-radius: 10px;
+            }
+
+        .meal-info {
+            margin: 20px 0;
+        }
+
+            .meal-info h1 {
+                margin: 0;
+                font-size: 2rem;
+            }
+
+            .meal-info p {
+                margin: 10px 0;
+                font-size: 1rem;
+                color: gray;
+            }
+
+            .meal-info .price {
+                font-size: 1.5rem;
+                color: #333;
+                font-weight: bold;
+            }
+
+        .restaurant-button {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+            .restaurant-button:hover {
+                background-color: #333;
+            }
+
+        .ingredients {
+            margin: 20px 0;
+        }
+
+            .ingredients summary {
+                font-size: 1.2rem;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+        .back-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            width: 100px;
+        }
+
+            .back-button:hover {
+                background-color: #580b92;
+            }
+    </style>
+</head>
+<body>
+    <!-- 餐點詳細資訊 -->
+    <div class="meal-container">
+        <div class="meal-image">
+            <img src="@Url.Content(Model.MealImage)" alt="@Model.MealName">
+            <form asp-controller="Search" asp-action="RateMeal" method="get">
+                <input type="hidden" name="mealId" value="@Model.MealId" />
+                <button type="submit" class="rating-icon" title="Rate this meal" style="position: absolute; top: 10px; left: 10px; background: transparent; border: none; cursor: pointer; font-size: 2rem; color: gold;">★</button>
+            </form>
+        </div>
+        <div class="meal-info">
+            <h1>@Model.MealName</h1>
+            <p class="price">$@Model.MealPrice</p>
+            <p>@Model.MealDescription</p>
+            <button class="restaurant-button" onclick="location.href='@Url.Action("RestDetail1", "Search", new { restId = Model.RestId })'">
+                Into Restaurant
+            </button>
+        </div>
+        <details class="ingredients">
+            <summary>Ingredients</summary>
+            <p>@Model.MealIngredient</p>
+        </details>
+        <a href="@Url.Action("SearchMealResult", "Search", new {
+            searchText = ViewData["LastSearchText"],
+            nutritionTags = ViewData["LastNutritionTags"]
+        })" class="back-button">Back</a>
+    </div>
+</body>
+</html>

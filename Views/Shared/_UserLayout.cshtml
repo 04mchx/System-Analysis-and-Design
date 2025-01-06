@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - dbFinal</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        .navbar .logo-image {
+            height: 40px;
+            width: auto;
+        }
+
+        .navbar .dropdown {
+            position: relative;
+        }
+
+        .navbar .dropdown-menu {
+            text-align: center; /* 文字水平置中 */
+            right: 0; /* 確保下拉選單對齊右側 */
+            left: auto;
+            min-width: 200px; /* 控制下拉選單寬度 */
+            max-width: 250px; /* 避免過大 */
+            text-align: left; /* 確保文字對齊 */
+        }
+
+            /* 下拉選單中的每一項 */
+            .navbar .dropdown-menu a,
+            .navbar .dropdown-menu button {
+                display: block;
+                text-align: center; /* 水平置中 */
+                padding: 10px; /* 增加內邊距 */
+                margin: 0 auto; /* 確保文字居中 */
+                width: 100%; /* 適應下拉選單寬度 */
+            }
+
+        .navbar .user-icon {
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 100%; /* 確保內容可以滿版 */
+            padding: 0 15px;
+        }
+    </style>
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <!-- 點擊 Logo 回到 UserMainPage -->
+                <a class="navbar-brand" asp-controller="User" asp-action="UserMainPage">
+                    <img src="~/images/logo.png" alt="Logo" style="height: 40px; width: auto;" />
+                </a>
+
+                <!-- 右側下拉式選單 -->
+                <div class="dropdown ms-auto">
+                    <i class="fas fa-user-circle user-icon" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li class="dropdown-header text-center">Hello, @ViewBag.UserName</li>
+                        <li><a class="dropdown-item" href="@Url.Action("EditProfile", "User")">個人設定</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("EditFavorite", "User")">偏好設定</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("ViewReview", "User")">評分紀錄</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form asp-action="Logout" method="post" style="margin: 0;">
+                                <button type="submit" class="dropdown-item text-danger">登出</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</body>
+</html>

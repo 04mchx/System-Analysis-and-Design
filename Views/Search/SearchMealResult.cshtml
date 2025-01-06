@@ -1,0 +1,192 @@
+﻿@using System.Linq
+@model IEnumerable<dbFinal.Models.MealViewModelNew>
+@{
+    ViewBag.Title = "Search Meal Results";
+    Layout = "~/Views/Shared/_UserLayout.cshtml"; // 使用 UserLayout
+}
+
+@section Styles {
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .search-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .toggler {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+        }
+
+            .toggler i {
+                color: white;
+                font-size: 1.5rem;
+            }
+
+        .nutrition-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 10px;
+            z-index: 1000;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            padding: 10px;
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            flex: 1;
+            background: #eee;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+            .search-input-wrapper input {
+                border: none;
+                background: transparent;
+                flex: 1;
+                outline: none;
+                font-size: 1rem;
+            }
+
+            .search-input-wrapper button {
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 1.2rem;
+                color: #6a0dad;
+            }
+
+        .results-container {
+            max-width: 900px;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .result-item {
+            display: flex;
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+            .result-item img {
+                width: 100px;
+                height: 100px;
+                object-fit: cover;
+                border-radius: 8px;
+                margin-right: 15px;
+            }
+
+        .result-item-content {
+            flex: 1;
+        }
+
+        .result-item-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .result-item-desc {
+            font-size: 0.9rem;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .result-item-action {
+            margin-top: 10px;
+        }
+
+            .result-item-action button {
+                background-color: #6a0dad;
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+                .result-item-action button:hover {
+                    background-color: #580b92;
+                }
+    </style>
+}
+
+<div class="search-container">
+    <div class="toggler" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+    <div class="nutrition-menu">
+        <label><input type="checkbox" name="nutritionTags" value="低糖" @(ViewBag.NutritionTags?.Contains("低糖") == true ? "checked" : "") /> 低糖</label>
+        <label><input type="checkbox" name="nutritionTags" value="低脂" @(ViewBag.NutritionTags?.Contains("低脂") == true ? "checked" : "") /> 低脂</label>
+        <label><input type="checkbox" name="nutritionTags" value="高蛋白" @(ViewBag.NutritionTags?.Contains("高蛋白") == true ? "checked" : "") /> 高蛋白</label>
+    </div>
+    <div class="search-input-wrapper">
+        <form method="get" action="@Url.Action("SearchMealResult", "Search")" style="flex: 1;">
+            <input type="text" name="searchText" value="@ViewBag.SearchText" placeholder="Search meals..." />
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="results-container">
+        @foreach (var meal in Model)
+        {
+            <div class="result-item">
+                <img src="@meal.MealImage" alt="@meal.MealName" />
+                <div class="result-item-content">
+                    <p class="result-item-title">@meal.MealName</p>
+                    <p class="result-item-desc">@meal.MealDescription</p>
+                    <p class="result-item-price">$@meal.MealPrice</p>
+                    <div class="result-item-action">
+                        <a href="@Url.Action("MealDetail", "Search", new { mealId = meal.MealId })">
+                            <button>More Details</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p style="text-align: center; color: gray; margin-top: 20px;">No results found.</p>
+}
+
+<script>
+    function toggleMenu() {
+        const menu = document.querySelector('.nutrition-menu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+</script>

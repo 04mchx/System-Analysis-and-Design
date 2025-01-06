@@ -1,0 +1,135 @@
+﻿@model dbFinal.Models.MealViewModelNew
+
+@{
+    ViewBag.Title = "Rate Meal";
+    Layout = "~/Views/Shared/_UserLayout.cshtml"; // 使用 UserLayout
+}
+
+<div class="content-container">
+    <div class="rating-container">
+        <!-- 餐點詳細資訊 -->
+        <div class="meal-details">
+            <div class="meal-image">
+                <img src="@Url.Content(Model.MealImage ?? "/path/to/default/image.jpg")" alt="@Model.MealName">
+            </div>
+            <div class="meal-info">
+                <h1>@Model.MealName</h1>
+                <p><strong>Restaurant:</strong> @Model.RestName</p>
+                <p>@Model.MealDescription</p>
+            </div>
+        </div>
+
+        <!-- 評分表單 -->
+        <form asp-action="SubmitRating" method="post">
+            <input type="hidden" name="mealId" value="@Model.MealId">
+            <div class="stars">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <span class="star" data-value="@i" onclick="selectStar(this)">★</span>
+                }
+            </div>
+            <input type="hidden" name="rating" id="rating" value="0">
+            <button type="submit" class="submit-button">Submit Rating</button>
+        </form>
+        <button class="back-button" onclick="history.back()">Back</button>
+    </div>
+</div>
+
+<script>
+    function selectStar(star) {
+        const stars = document.querySelectorAll('.star');
+        stars.forEach(s => s.classList.remove('selected'));
+        star.classList.add('selected');
+        document.getElementById('rating').value = star.getAttribute('data-value');
+    }
+</script>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .content-container {
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .rating-container {
+        width: 100%;
+        max-width: 800px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .meal-image img {
+        width: 100%;
+        max-height: 300px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .meal-info h1 {
+        font-size: 2rem;
+        margin: 10px 0;
+    }
+
+    .meal-info p {
+        font-size: 1rem;
+        color: gray;
+        margin: 5px 0;
+    }
+
+    .stars {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .star {
+        font-size: 2rem;
+        color: #ddd;
+        cursor: pointer;
+        margin: 0 5px;
+    }
+
+        .star:hover,
+        .star.selected {
+            color: gold;
+        }
+
+    .submit-button,
+    .back-button {
+        width: 100%;
+        max-width: 200px;
+        margin: 10px 0;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .submit-button {
+        background-color: #6a0dad;
+        color: white;
+    }
+
+        .submit-button:hover {
+            background-color: #580b92;
+        }
+
+    .back-button {
+        background-color: #ddd;
+        color: black;
+    }
+</style>

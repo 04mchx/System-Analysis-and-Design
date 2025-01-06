@@ -1,0 +1,183 @@
+﻿@{
+    ViewBag.Title = "餐廳登入";
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Remove Navigation and Footer */
+        nav, footer {
+            display: none !important;
+        }
+
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Body Styling: 使用 Flexbox 置中 */
+        body {
+            display: flex;
+            justify-content: center; /* 水平置中 */
+            align-items: center; /* 垂直置中 */
+            height: 100vh; /* 視窗高度 */
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Login Container */
+        .login-container {
+            background: #ffffff;
+            border: 1px solid #ddd;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 100%; /* 讓內容可以靈活縮放 */
+            max-width: 400px; /* 最大寬度限制 */
+            padding: 20px;
+            text-align: center;
+            box-sizing: border-box;
+            margin: auto; /* 保證容器在視覺上置中 */
+        }
+
+
+            .login-container h1 {
+                color: #6a0dad;
+                margin-bottom: 20px;
+                font-size: 1.8rem;
+            }
+
+        /* Input Fields */
+        .input-field {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+            .input-field label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+                color: #333;
+                text-align: left;
+            }
+
+            .input-field input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 1rem;
+            }
+
+        /* Password Eye Icon */
+        .password-container {
+            position: relative;
+        }
+
+            .password-container .fa-eye,
+            .password-container .fa-eye-slash {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                color: #555;
+                font-size: 1.1rem;
+            }
+
+        /* Login Button */
+        .login-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #6a0dad;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+            .login-button:hover {
+                background-color: #580b92;
+            }
+
+        /* Links for Forgot Password and ID */
+        .additional-links {
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+            .additional-links a {
+                color: #6a0dad;
+                text-decoration: none;
+            }
+
+                .additional-links a:hover {
+                    text-decoration: underline;
+                }
+
+    </style>
+</head>
+<body>
+    <!-- Login Container -->
+    <div class="login-container">
+        <h1>@ViewBag.Title</h1>
+
+        <!-- Error Message -->
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="error-message" style="color: red; margin-bottom: 15px;">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <form method="post" action="/Restaurant/RestAuthenticate">
+            <!-- Restaurant ID -->
+            <div class="input-field">
+                <label for="Rid">餐廳 ID:</label>
+                <input type="number" id="Rid" name="Rid" required>
+            </div>
+
+            <!-- Password Field -->
+            <div class="input-field password-container">
+                <label for="password">密碼:</label>
+                <input type="password" id="password" name="password" required>
+                <i class="fas fa-eye" id="togglePassword"></i>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="login-button">登入</button>
+        </form>
+
+        <!-- Forgot Password and Restaurant ID -->
+        <div class="additional-links">
+            <p>
+                忘記密碼？<a href="/Restaurant/ForgotPassword">重置密碼</a>
+            </p>
+            <p>
+                忘記餐廳 ID？<a href="/Restaurant/RetrieveRestID">找回餐廳 ID</a>
+            </p>
+            <p>
+                尚未註冊？<a href="/Restaurant/Register">註冊</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- 密碼可查看功能的 JavaScript -->
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordField = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordField.type === "password" ? "text" : "password";
+            passwordField.type = type;
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
+</body>

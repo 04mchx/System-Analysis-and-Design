@@ -1,0 +1,80 @@
+﻿@model dbFinal.Models.user
+
+@{
+    ViewBag.Title = "編輯個人資料";
+    Layout = "~/Views/Shared/_UserLayout.cshtml"; // 使用已定義的 User 專用 Layout
+}
+
+<div class="container mt-5">
+    <div class="form-container bg-white shadow p-4 rounded">
+        <h2 class="text-center text-primary">@ViewBag.Title</h2>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <p class="text-danger text-center">@ViewBag.ErrorMessage</p>
+        }
+
+        <form asp-action="EditProfile" method="post">
+            <input type="hidden" asp-for="USER_ID" />
+
+            <div class="form-group mb-3">
+                <label asp-for="USER_NAME" class="form-label">使用者名稱</label>
+                <input asp-for="USER_NAME" class="form-control" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="USER_EMAIL" class="form-label">電子郵件</label>
+                <input asp-for="USER_EMAIL" type="email" class="form-control" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="USER_LOCATION" class="form-label">位置</label>
+                <select asp-for="USER_LOCATION" class="form-select" required>
+                    <option value="">請選擇縣市</option>
+                    <option value="台北市">台北市</option>
+                    <option value="新北市">新北市</option>
+                    <option value="桃園市">桃園市</option>
+                    <option value="台中市">台中市</option>
+                    <option value="台南市">台南市</option>
+                    <option value="高雄市">高雄市</option>
+                    <option value="基隆市">基隆市</option>
+                    <option value="新竹市">新竹市</option>
+                    <option value="嘉義市">嘉義市</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3 position-relative">
+                <label for="OldPassword" class="form-label">舊密碼</label>
+                <input id="OldPassword" name="OldPassword" type="password" class="form-control" />
+                <i class="fas fa-eye position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer" onclick="togglePassword('OldPassword', this)"></i>
+            </div>
+
+            <div class="form-group mb-3 position-relative">
+                <label for="NewPassword" class="form-label">新密碼</label>
+                <input id="NewPassword" name="NewPassword" type="password" class="form-control" />
+                <i class="fas fa-eye position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer" onclick="togglePassword('NewPassword', this)"></i>
+            </div>
+
+            <div class="form-group mb-3 position-relative">
+                <label for="ConfirmPassword" class="form-label">確認新密碼</label>
+                <input id="ConfirmPassword" name="ConfirmPassword" type="password" class="form-control" />
+                <i class="fas fa-eye position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer" onclick="togglePassword('ConfirmPassword', this)"></i>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">保存修改</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function togglePassword(fieldId, icon) {
+        const field = document.getElementById(fieldId);
+        if (field.type === "password") {
+            field.type = "text";
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            field.type = "password";
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+</script>

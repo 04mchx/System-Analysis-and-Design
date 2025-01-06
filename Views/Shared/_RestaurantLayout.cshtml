@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/dbFinal.styles.css" asp-append-version="true" />
+    <style>
+        .navbar-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* 設置圖標之間的間距為20px */
+        }
+
+            .navbar-icons .nav-link {
+                color: #424949; /* 設置圖標顏色為黑色 */
+                font-size: 20px; /* 圖標大小 */
+                text-decoration: none; /* 去除底線 */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .navbar-icons button.nav-link {
+                padding: 0; /* 去除按鈕內邊距 */
+                margin: 0; /* 去除按鈕外邊距 */
+                background: none; /* 移除背景色 */
+                border: none; /* 移除邊框 */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid d-flex justify-content-between align-items-center">
+                <!-- 左上 Logo -->
+                <a class="navbar-brand" asp-controller="Restaurant" asp-action="Dashboard">
+                    <img src="~/images/logo.png" alt="Logo" style="height: 40px;">
+                </a>
+
+                <!-- 右側功能圖標 -->
+                <div class="navbar-icons d-flex align-items-center">
+                    <a href="@Url.Action("Feedback", "Restaurant")" title="Customer Service" class="nav-link">
+                        <i class="fas fa-headset"></i>
+                    </a>
+                    <a asp-action="EditBasicInfo" title="Edit Info" class="nav-link">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                    <form asp-action="Logout" method="post" style="display:inline;" class="m-0">
+                        <button type="submit" title="Logout" class="nav-link" style="border: none; background: none;">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

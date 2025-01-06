@@ -1,0 +1,59 @@
+﻿@model IEnumerable<dbFinal.Models.restaurant>
+
+@{
+    ViewData["Title"] = "testA";
+}
+
+<h1>testA</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.REST_NAME)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.REST_ADDRESS)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.REST_BUSINESSHOURS)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.REST_MENU)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.REST_PASSWORD)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.REST_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.REST_ADDRESS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.REST_BUSINESSHOURS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.REST_MENU)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.REST_PASSWORD)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.REST_ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.REST_ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.REST_ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

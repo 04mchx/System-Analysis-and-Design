@@ -1,0 +1,129 @@
+﻿@model dbFinal.Models.announcement
+@{
+    Layout = "~/Views/Shared/_RestaurantLayout.cshtml"; // 針對 Restaurant 的 Layout
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>編輯公告</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #6a0dad;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        /* 緊急公告樣式 */
+        .emergency-banner {
+            background-color: #ffcccc;
+            color: #b30000;
+            border: 1px solid #ff6666;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .form-control.emergency {
+            background-color: #ffcccc;
+            color: #b30000;
+            border: 1px solid #ff6666;
+        }
+
+        /* 按鈕樣式 */
+        .btn {
+            background-color: #6a0dad;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: #580b92;
+            }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+            .btn-secondary:hover {
+                background-color: #5a6268;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        @if (Model.ANNO_IS_EMERGENCY)
+        {
+            <div class="emergency-banner">
+                ⚠️ 此公告為 <strong>緊急公告</strong>
+            </div>
+        }
+
+        <h1>編輯公告</h1>
+
+        <form asp-action="EditAnno" method="post">
+            <input type="hidden" asp-for="ANNO_ID" />
+
+            <!-- 標題欄位 -->
+            <div class="mb-3">
+                <label asp-for="ANNO_TITLE" class="form-label">公告標題</label>
+                <input asp-for="ANNO_TITLE" class="form-control @(Model.ANNO_IS_EMERGENCY ? "emergency" : "")" required />
+            </div>
+
+            <!-- 內容欄位 -->
+            <div class="mb-3">
+                <label asp-for="ANNO_CONTENT" class="form-label">公告內容</label>
+                <textarea asp-for="ANNO_CONTENT" class="form-control @(Model.ANNO_IS_EMERGENCY ? "emergency" : "")" rows="5" required></textarea>
+            </div>
+
+            <!-- 緊急公告 Checkbox -->
+            <div class="mb-3 form-check">
+                <input asp-for="ANNO_IS_EMERGENCY" class="form-check-input" type="checkbox" />
+                <label asp-for="ANNO_IS_EMERGENCY" class="form-check-label">設為緊急公告</label>
+            </div>
+
+            <!-- 按鈕 -->
+            <div class="text-center">
+                <button type="submit" class="btn">儲存變更</button>
+                <a asp-action="Dashboard" class="btn btn-secondary">返回主頁</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

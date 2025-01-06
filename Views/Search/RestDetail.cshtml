@@ -1,0 +1,140 @@
+﻿@model RestaurantDetailsViewModel
+
+@{
+    ViewBag.Title = Model.Restaurant.REST_NAME;
+    Layout = "~/Views/Shared/_UserLayout.cshtml"; // 使用 UserLayout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .restaurant-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .restaurant-header img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                margin-right: 20px;
+            }
+
+        .menu-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .menu-item {
+            width: 30%;
+            margin: 1%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+            .menu-item img {
+                width: 100%;
+                height: 150px;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+
+        .pagination-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            padding: 5px 10px;
+            margin: 0 5px;
+            text-decoration: none;
+            background-color: #6a0dad;
+            color: white;
+            border-radius: 5px;
+        }
+
+            .pagination a.active {
+                background-color: #580b92;
+            }
+
+        button {
+            background-color: #6a0dad;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+            button:hover {
+                background-color: #580b92;
+            }
+    </style>
+</head>
+<body>
+    <!-- 餐廳資訊區 -->
+    <div class="restaurant-header">
+        <img src="@Url.Content(Model.Restaurant.REST_IMAGE ?? "/path/to/default/restaurant.jpg")" alt="Restaurant Logo">
+        <div>
+            <h1>@Model.Restaurant.REST_NAME</h1>
+            <p>@Model.Restaurant.REST_ADDRESS</p>
+            <p>Business Time: @Model.Restaurant.REST_BUSINESSHOURS</p>
+        </div>
+    </div>
+
+    <!-- 餐點菜單 -->
+    <h2>Menu</h2>
+    <div class="menu-container">
+        @foreach (var meal in Model.Meals)
+        {
+            <div class="menu-item" style="position: relative;">
+                <!-- 星星評分按鈕 -->
+                <form method="get" action="@Url.Action("RateMeal", "Search")" style="position: absolute; top: 10px; left: 10px;">
+                    <input type="hidden" name="mealId" value="@meal.MealId" />
+                    <button type="submit" class="rating-icon" title="Rate this meal" style="position: absolute; top: 10px; left: 10px; background: transparent; border: none; cursor: pointer; font-size: 2rem; color: gold;">★</button>
+                </form>
+
+                <!-- 餐點資訊 -->
+                <img src="@Url.Content(meal.MealImage ?? "/path/to/default/meal.jpg")" alt="@meal.MealName">
+                <h3>@meal.MealName</h3>
+                <p>$@meal.MealPrice</p>
+                <p>@meal.MealDescription</p>
+                <p><strong>Ingredients:</strong> @meal.MealIngredient</p>
+                <p><strong>Allergens:</strong> @meal.MealAllergen</p>
+            </div>
+        }
+    </div>
+
+    <!-- 分頁與返回按鈕 -->
+    <div class="pagination-container">
+        <div class="pagination">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <a href="@Url.Action("RestDetail", "Search", new { restId = Model.Restaurant.REST_ID, page = i, searchText = ViewData["SearchText"] })" class="@(i == Model.CurrentPage ? "active" : "")">@i</a>
+            }
+        </div>
+        <button onclick="location.href='@Url.Action("SearchRestResult", "Search", new { searchText = ViewData["SearchText"] })'">
+            Back
+        </button>
+    </div>
+</body>
+</html>

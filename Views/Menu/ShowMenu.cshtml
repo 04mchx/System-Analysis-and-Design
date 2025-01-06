@@ -1,0 +1,35 @@
+﻿@model IEnumerable<meal>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>Restaurant's Name</h1>
+            <p>@ViewBag.RestaurantAddress / @ViewBag.RestaurantOpenTime</p>
+        </div>
+        <a asp-controller="Restaurant" asp-action="Dashboard" class="btn btn-primary">回前頁</a>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var meal in Model)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <img src="@meal.MEAL_IMAGE" class="card-img-top" alt="@meal.MEAL_NAME" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">@meal.MEAL_NAME</h5>
+                        <p class="card-text">價格: $@meal.MEAL_PRICE</p>
+                        <p class="card-text">@meal.MEAL_DESCRIPTION</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="mt-4 d-flex justify-content-between">
+        <button class="btn btn-secondary" onclick="history.back()">上一頁</button>
+        <form asp-action="DeleteAllMeals" method="post" style="display:inline-block;">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('確定要刪除所有餐點嗎？')">刪除所有</button>
+        </form>
+        <button class="btn btn-secondary" onclick="history.forward()">下一頁</button>
+    </div>
+</div>

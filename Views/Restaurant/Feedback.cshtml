@@ -1,0 +1,131 @@
+﻿@{
+    Layout = "~/Views/Shared/_RestaurantLayout.cshtml"; // 針對 Restaurant 的 Layout
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 导航栏样式 */
+        nav {
+            background-color: #6a0dad;
+            color: white;
+            padding: 15px 20px;
+            position: fixed; /* 固定在顶部 */
+            width: 100%;
+            top: 0;
+            left: 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+            nav h1 {
+                font-size: 1.5rem;
+                margin: 0;
+            }
+
+        /* 容器居中样式 */
+        .feedback-container {
+            background: #ffffff;
+            border: 1px solid #ddd;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            margin: 100px auto 20px auto; /* 顶部留白以避免遮挡 */
+        }
+
+            .feedback-container h2 {
+                color: #6a0dad;
+                margin-bottom: 20px;
+                text-align: center;
+                font-size: 1.8rem;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 10px;
+                font-weight: bold;
+                font-size: 1rem;
+                color: #555;
+            }
+
+            .form-group textarea {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 1rem;
+                resize: vertical; /* 允许上下调整大小 */
+            }
+
+            .form-group button, .form-group a {
+                display: inline-block;
+                width: 48%;
+                text-align: center;
+                padding: 10px;
+                font-size: 1rem;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none;
+                color: #fff;
+            }
+
+            .form-group button {
+                background-color: #28a745;
+            }
+
+                .form-group button:hover {
+                    background-color: #218838;
+                }
+
+            .form-group a {
+                background-color: #6c757d;
+            }
+
+                .form-group a:hover {
+                    background-color: #5a6268;
+                }
+    </style>
+</head>
+<body>
+    <!-- 反馈容器 -->
+    <div class="feedback-container">
+        <h2>回饋意見</h2>
+        <!-- 表单提交到 SubmitFeedback 动作 -->
+        <form method="post" action="@Url.Action("SubmitFeedback", "Restaurant")">
+            <div class="form-group">
+                <label for="feedback">請輸入您的回饋：</label>
+                <textarea id="feedback" name="FeedbackContent" class="form-control" rows="5" placeholder="請在此輸入您的意見..."></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit">送出</button>
+                <a href="@Url.Action("Dashboard", "Restaurant")">取消</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
