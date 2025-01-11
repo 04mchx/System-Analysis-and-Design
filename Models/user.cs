@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace dbFinal.Models;
 
+//A
 public partial class user
 {
     public int USER_ID { get; set; }

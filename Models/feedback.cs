@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace dbFinal.Models;
 
+//S8
 public partial class feedback
 {
     public int FEEDBACK_ID { get; set; }

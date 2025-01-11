@@ -15,7 +15,8 @@ namespace dbFinal.Controllers
             _context = context;
         }
 
-        // 批量加密資料庫中的密碼
+        // 加密資料庫中的密碼
+        //R.encode_password
         public void EncryptPasswords()
         {
             // 從資料庫中取得所有餐廳記錄
@@ -42,18 +43,21 @@ namespace dbFinal.Controllers
             Console.WriteLine("所有密碼已加密完成！");
         }
 
+        //R.encode_password
         public IActionResult EncryptAllPasswords()
         {
             EncryptPasswords(); // 呼叫批量加密方法
             return Content("所有密碼已成功加密！");
         }
 
+        //B6
         [HttpGet]
         public IActionResult RestLogin()
         {
             return View(); // 顯示登入頁面
         }
 
+        //B6
         [HttpPost]
         public IActionResult RestAuthenticate(int Rid, string password)
         {
@@ -80,6 +84,7 @@ namespace dbFinal.Controllers
             return RedirectToAction("Dashboard");
         }
 
+        //R.fx5-Logout
         [HttpPost]
         public IActionResult Logout()
         {
@@ -88,12 +93,14 @@ namespace dbFinal.Controllers
             return RedirectToAction("RestLogin");
         }
 
+        //R.fx1
         [HttpGet]
         public IActionResult Register()
         {
             return View(); // 顯示註冊頁面
         }
 
+        //R.fx1
         [HttpPost]
         public IActionResult Register(string RestName, string RestPassword, bool? AgreeToTerms)
         {
@@ -145,19 +152,22 @@ namespace dbFinal.Controllers
             return View(); // 返回註冊頁面
         }
 
+        //B4-1
         [HttpGet]
         public IActionResult Privacy()
         {
             TempData["AgreeToTerms"] = true;
             return View();
         }
-   
+
+        //R.fx1-2
         [HttpGet]
         public IActionResult ForgotPassword()
         {
             return View();
         }
 
+        //R.fx1-2
         [HttpPost]
         public IActionResult ForgotPassword(int Rid, string RestName, string NewPassword)
         {
@@ -179,12 +189,14 @@ namespace dbFinal.Controllers
             return View();
         }
 
+        //R.fx1-3
         [HttpGet]
         public IActionResult RetrieveRestID()
         {
             return View();
         }
 
+        //R.fx1-3
         [HttpPost]
         public IActionResult RetrieveRestID(string RestName)
         {
@@ -200,6 +212,7 @@ namespace dbFinal.Controllers
             return View();
         }
 
+        //B6-1
         [HttpGet]
         public IActionResult Dashboard()
         {
@@ -250,7 +263,7 @@ namespace dbFinal.Controllers
                 Address = restaurant.REST_ADDRESS ?? "地址未提供",
                 OpenTime = restaurant.REST_BUSINESSHOURS ?? "營業時間未設定",
                 Phone = restaurant.REST_PHONE ?? "電話未提供",
-                LogoUrl = restaurant.REST_IMAGE, // 確保這裡傳遞正確的圖片路徑
+                LogoUrl = restaurant.REST_IMAGE, // 確保傳遞正確的圖片路徑
                 Meals = meals,
                 Announcements = announcements
             };
@@ -258,6 +271,7 @@ namespace dbFinal.Controllers
             return View(viewModel);
         }
 
+        //B3
         [HttpGet]
         public IActionResult EditBasicInfo()
         {
@@ -278,6 +292,7 @@ namespace dbFinal.Controllers
             return View(restaurant); // 返回編輯頁面
         }
 
+        //B3
         [HttpPost]
         public IActionResult EditBasicInfo(restaurant model, IFormFile imageFile)
         {
@@ -329,7 +344,8 @@ namespace dbFinal.Controllers
             // 重定向到 Dashboard
             return RedirectToAction("Dashboard");
         }
-
+        
+        //P5.fx1
         [HttpGet]
         public IActionResult CreateAnno()
         {
@@ -337,6 +353,7 @@ namespace dbFinal.Controllers
             return View();
         }
 
+        //P5.fx1
         [HttpPost]
         public IActionResult CreateAnno(announcement model)
         {
@@ -374,6 +391,7 @@ namespace dbFinal.Controllers
             return RedirectToAction("Dashboard");
         }
 
+        //P5.fx2
         [HttpGet]
         public IActionResult EditAnno(int id)
         {
@@ -385,6 +403,7 @@ namespace dbFinal.Controllers
             return View(anno);
         }
 
+        //P5.fx2
         [HttpPost]
         public IActionResult EditAnno(announcement model)
         {
@@ -406,6 +425,7 @@ namespace dbFinal.Controllers
             return RedirectToAction("Dashboard");
         }
 
+        //P5.fx3
         [HttpPost]
         public IActionResult DeleteAnno(int id)
         {
@@ -420,32 +440,34 @@ namespace dbFinal.Controllers
             return RedirectToAction("Dashboard");
         }
 
+        //S8-2.fx1
         [HttpGet]
         public IActionResult Feedback()
         {
             return View(); // 回傳 Feedback 頁面
         }
+
+        //S8-2.fx1-1
         [HttpPost]
         public IActionResult SubmitFeedback(string FeedbackContent)
         {
             if (string.IsNullOrWhiteSpace(FeedbackContent))
             {
-                // 如果输入为空，返回错误提示
+                // 如果輸入為空，返回錯誤提示
                 TempData["ErrorMessage"] = "請輸入您的回饋內容。";
                 return RedirectToAction("Feedback");
             }
 
-            // 模拟将反馈保存到数据库
+            // 將反饋儲存到資料庫
             var feedback = new feedback
             {
                 FEEDBACK_WORD = FeedbackContent,
             };
 
-            // 假设您有一个 `_context` 数据上下文，保存到数据库
             _context.feedback.Add(feedback);
             _context.SaveChanges();
 
-            // 成功后跳转到其他页面，例如 Dashboard
+            // 成功後跳轉到Dashboard
             TempData["SuccessMessage"] = "感謝您的回饋！";
             return RedirectToAction("Dashboard");
         }

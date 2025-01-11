@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace dbFinal.Models;
 
+//M
 public partial class meal
 {
     public int MEAL_ID { get; set; }

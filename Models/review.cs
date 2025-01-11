@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace dbFinal.Models;
 
+//M3
 public partial class review
 {
     public int REVIEW_ID { get; set; }

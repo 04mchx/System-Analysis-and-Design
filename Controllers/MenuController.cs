@@ -14,6 +14,7 @@ namespace dbFinal.Controllers
             _context = context;
         }
 
+        //R.e-1
         [HttpGet]
         public IActionResult ShowMenu(int page = 1, int pageSize = 8)
         {
@@ -45,12 +46,14 @@ namespace dbFinal.Controllers
             return View(meals); // 確保 meals 是 IEnumerable<meal> 類型
         }
 
+        //M.fx1
         [HttpGet]
         public IActionResult CreateMeal()
         {
             return View();
         }
 
+        //M.fx1
         [HttpPost]
         public IActionResult CreateMeal(meal model, IFormFile imageFile)
         {
@@ -86,14 +89,15 @@ namespace dbFinal.Controllers
             // 從 Session 獲取餐廳 ID 並分配給餐點
             model.REST_ID = HttpContext.Session.GetInt32("RestId") ?? 0;
 
-            // 添加餐點到數據庫
+            // 添加餐點到資料庫
             _context.meal.Add(model);
             _context.SaveChanges();
 
-            // 修改跳轉動作
+            // 跳轉至Dashboard
             return RedirectToAction("Dashboard", "Restaurant");
         }
 
+        //M.fx2
         [HttpGet]
         public IActionResult EditMeal(int id)
         {
@@ -120,6 +124,7 @@ namespace dbFinal.Controllers
             return View(meal);
         }
 
+        //M.fx2
         [HttpPost]
         public IActionResult EditMeal(meal model, IFormFile imageFile)
         {
@@ -129,14 +134,13 @@ namespace dbFinal.Controllers
                 return NotFound("餐點不存在！");
             }
 
-            // 更新数据
             meal.MEAL_NAME = model.MEAL_NAME;
             meal.MEAL_PRICE = model.MEAL_PRICE;
             meal.MEAL_DESCRIPTION = model.MEAL_DESCRIPTION;
             meal.MEAL_INGREDIENTS = model.MEAL_INGREDIENTS;
             meal.MEAL_ALLERGENINFO = model.MEAL_ALLERGENINFO;
 
-            // 图片上传处理
+            // 圖片上傳處理
             if (imageFile != null && imageFile.Length > 0)
             {
                 var fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
@@ -160,7 +164,7 @@ namespace dbFinal.Controllers
             }
             else
             {
-                // 保留原图片路径
+                // 保留原圖片路徑
                 model.MEAL_IMAGE = meal.MEAL_IMAGE;
             }
 
@@ -169,6 +173,7 @@ namespace dbFinal.Controllers
             return RedirectToAction("Dashboard", "Restaurant");
         }
 
+        //M.fx3
         [HttpPost]
         public IActionResult DeleteMeal(int id)
         {
@@ -190,6 +195,5 @@ namespace dbFinal.Controllers
 
             return RedirectToAction("Dashboard", "Restaurant");
         }
-
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace dbFinal.Models;
 
+//P3
 public partial class ingredient
 {
     public int ING_ID { get; set; }

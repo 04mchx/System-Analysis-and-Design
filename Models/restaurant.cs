@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace dbFinal.Models;
 
+//R
 public partial class restaurant
 {
     public int REST_ID { get; set; }

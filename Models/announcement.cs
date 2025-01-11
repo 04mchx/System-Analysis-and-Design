@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace dbFinal.Models;
 
+//P5
 public class announcement
 {
     public int ANNO_ID { get; set; }

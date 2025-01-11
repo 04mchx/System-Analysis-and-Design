@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace dbFinal.Models;
 
+//A3
 public partial class favorite
 {
     public int FAV_ID { get; set; }

@@ -16,7 +16,7 @@ namespace dbFinal.Controllers
             _context = context;
         }
 
-        // GET: searchMeal
+        //M1
         [HttpGet]
         public IActionResult SearchMeal()
         {
@@ -36,17 +36,19 @@ namespace dbFinal.Controllers
             return View();
         }
 
+        //M.fx3_contains
         private bool ContainsAnyTags(string description, List<string> tags)
         {
             if (string.IsNullOrEmpty(description)) return false;
             return tags.Any(tag => description.Contains(tag));
         }
 
+        //M.fx3
         [HttpGet]
         [HttpPost]
         public IActionResult SearchMealResult(string searchText, List<string> nutritionTags, int page = 1, int pageSize = 5)
         {
-            // 設置 TempData 保存搜索條件
+            // 設置 TempData 儲存搜索條件
             TempData["LastSearchText"] = searchText;
             TempData["LastNutritionTags"] = nutritionTags ?? new List<string>();
 
@@ -92,13 +94,14 @@ namespace dbFinal.Controllers
             return View(paginatedMeals);
         }
 
-        // GET: searchMealNoResult
+        // M.fx3.N
         [HttpGet]
         public IActionResult SearchMealNoResult()
         {
             return View();
         }
 
+        //M2
         [HttpGet]
         public IActionResult MealDetail(int mealId)
         {
@@ -115,7 +118,7 @@ namespace dbFinal.Controllers
                             m.MEAL_PRICE,
                             m.MEAL_IMAGE,
                             m.REST_ID,
-                            RestName = r.REST_NAME // 獲取餐廳名稱
+                            RestName = r.REST_NAME
                         }).FirstOrDefault();
 
             if (meal == null)
@@ -135,13 +138,14 @@ namespace dbFinal.Controllers
                 RestName = meal.RestName ?? "Unknown Restaurant" // 處理 null 餐廳名稱
             };
 
-            // 保存返回的搜索參數到 ViewData
+            // 儲存返回的搜索參數到 ViewData
             ViewData["LastSearchText"] = TempData["LastSearchText"] ?? "";
             ViewData["LastNutritionTags"] = TempData["LastNutritionTags"] ?? new List<string>();
 
             return View(mealDetail);
         }
 
+        //M3
         [HttpGet]
         public IActionResult RateMeal(int mealId)
         {
@@ -169,6 +173,7 @@ namespace dbFinal.Controllers
             return View(meal);
         }
         
+        //M3.fx1
         [HttpPost]
         public IActionResult SubmitRating(int mealId, int rating)
         {
@@ -203,13 +208,15 @@ namespace dbFinal.Controllers
             return RedirectToAction("ViewReview", "User");
         }
 
-        // 顯示搜尋頁面
+        // R1
         [HttpGet]
         public IActionResult SearchRest()
         {
             return View();
         }
 
+
+        //R.fx4.Y
         [HttpGet]
         [HttpPost]
         public IActionResult SearchRestResult(string searchText)
@@ -234,12 +241,14 @@ namespace dbFinal.Controllers
         }
 
         // 沒有搜尋結果
+        //R.fx4.N
         [HttpGet]
         public IActionResult SearchRestNoResult()
         {
             return View();
         }
 
+        //R2
         [HttpGet]
         public IActionResult RestDetail(int restId, int page = 1, int pageSize = 3, string searchText = "")
         {
@@ -283,6 +292,7 @@ namespace dbFinal.Controllers
             return View(viewModel);
         }
 
+        //R2
         [HttpGet]
         public IActionResult RestDetail1(int restId, int page = 1, int pageSize = 3, string searchText = "")
         {

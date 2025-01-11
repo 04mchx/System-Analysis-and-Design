@@ -8,7 +8,6 @@ using System.Text.RegularExpressions;
 
 namespace dbFinal.Controllers
 {
-
     public class UserController : Controller
     {
         private readonly db_testContext _context;
@@ -20,7 +19,8 @@ namespace dbFinal.Controllers
             _context = context;
         }
 
-        // 批量加密資料庫中的密碼
+        // 加密資料庫中的密碼
+        //A.encode_password
         public void EncryptPasswords()
         {
             var users = _context.user.ToList();
@@ -41,18 +41,21 @@ namespace dbFinal.Controllers
             Console.WriteLine("所有密碼已加密完成！");
         }
 
+        //A.encode_password
         public IActionResult EncryptAllPasswords()
         {
             EncryptPasswords();
             return Content("所有密碼已成功加密！");
         }
 
+        //A.fx1
         [HttpGet]
         public IActionResult UserLogin()
         {
             return View();
         }
 
+        //A.fx1-1
         [HttpPost]
         public IActionResult UserAuthenticate(string UserName, string password)
         {
@@ -111,6 +114,7 @@ namespace dbFinal.Controllers
             return RedirectToAction("UserMainpage");
         }
 
+        //A.fx1-Logout
         [HttpPost]
         public IActionResult Logout()
         {
@@ -118,12 +122,14 @@ namespace dbFinal.Controllers
             return RedirectToAction("UserLogin");
         }
 
+        //A.fx2
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
+        //A.fx2
         [HttpPost]
         public IActionResult Register(string UserName, string UserPassword, string UserEmail, bool? AgreeToTerms)
         {
@@ -194,6 +200,7 @@ namespace dbFinal.Controllers
             return View();
         }
 
+        //A1-1
         [HttpGet]
         public IActionResult TermsOfService()
         {
@@ -201,18 +208,21 @@ namespace dbFinal.Controllers
             return View();
         }
 
+        //A1-1
         [HttpGet]
         public IActionResult PrivacyPolicy()
         {
             return View();
         }
 
+        //A.fx1_forgetpsw
         [HttpGet]
         public IActionResult UserForgotPassword()
         {
             return View();
         }
 
+        //A.fx1_forgetpsw
         [HttpPost]
         public IActionResult UserForgotPassword(string UserName, string NewPassword)
         {
@@ -239,6 +249,7 @@ namespace dbFinal.Controllers
             return View();
         }
 
+        //A4
         [HttpGet]
         public IActionResult UserMainPage()
         {
@@ -284,6 +295,7 @@ namespace dbFinal.Controllers
             return View(user);
         }
 
+        //A3-2
         [HttpGet]
         public IActionResult EditProfile(int? id)
         {
@@ -308,6 +320,7 @@ namespace dbFinal.Controllers
             return View(user);
         }
 
+        //A3-2
         [HttpPost]
         public IActionResult EditProfile(user model, string OldPassword, string NewPassword, string ConfirmPassword)
         {
@@ -370,6 +383,7 @@ namespace dbFinal.Controllers
             return RedirectToAction("UserMainPage");
         }
 
+        //A3-1
         [HttpGet]
         public IActionResult EditFavorite()
         {
@@ -395,6 +409,7 @@ namespace dbFinal.Controllers
             return View(favorite);
         }
 
+        //A3-1
         [HttpPost]
         public IActionResult EditFavorite(favorite model)
         {
@@ -433,6 +448,8 @@ namespace dbFinal.Controllers
             TempData["SuccessMessage"] = "喜好設定已成功更新！";
             return RedirectToAction("UserMainPage");
         }
+
+        //M3.fx4
         [HttpGet]
         public IActionResult ViewReview(int page = 1, int pageSize = 5)
         {
@@ -463,6 +480,8 @@ namespace dbFinal.Controllers
 
             return View(reviews);
         }
+
+        //M3.fx3
         [HttpPost]
         public IActionResult DeleteReview(int reviewId)
         {
@@ -489,11 +508,14 @@ namespace dbFinal.Controllers
             return RedirectToAction("ViewReview");
         }
 
+        //S2
         [HttpGet]
         public IActionResult Feedback()
         {
             return View(); // 回傳 Feedback 頁面
         }
+
+        //S8-1.fx1
         [HttpPost]
         public IActionResult SubmitFeedback(string FeedbackContent)
         {
@@ -503,7 +525,7 @@ namespace dbFinal.Controllers
                 return RedirectToAction("Feedback");
             }
 
-            // 處理回饋數據，例如保存到數據庫
+            // 處理回饋數據
             TempData["Success"] = "感謝您的回饋！";
 
             return RedirectToAction("UserMainPage");
